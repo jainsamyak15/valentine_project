@@ -10,6 +10,7 @@ import RosePetals from "@/components/RosePetals";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import Navbar from "@/components/Navbar";
 
 export default function TakeQuiz() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function TakeQuiz() {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 py-12 px-4 relative">
       <RosePetals />
       <BackgroundMusic />
+      <Navbar />
 
       <div className="max-w-md mx-auto">
         <motion.div

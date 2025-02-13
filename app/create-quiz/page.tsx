@@ -12,6 +12,7 @@ import RosePetals from "@/components/RosePetals";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
+import Navbar from "@/components/Navbar";
 import {
   Dialog,
   DialogContent,
@@ -157,6 +158,7 @@ export default function CreateQuiz() {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 py-12 px-4 relative">
       <RosePetals />
       <BackgroundMusic />
+      <Navbar />
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import Navbar from "@/components/Navbar";
 
 export default function TakeQuizClient({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -190,6 +191,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 py-12 px-4 relative">
       <RosePetals />
       <BackgroundMusic />
+      <Navbar />
 
       <div className="max-w-3xl mx-auto">
         <AnimatePresence mode="wait">
@@ -303,7 +305,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
         </AnimatePresence>
       </div>
 
-      <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
+      {/* <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Send a Message to Your Valentine</DialogTitle>
@@ -335,7 +337,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
             </Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
