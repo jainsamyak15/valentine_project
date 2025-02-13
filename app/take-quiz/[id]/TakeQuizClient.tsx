@@ -12,6 +12,8 @@ import BackgroundMusic from "@/components/BackgroundMusic";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import { Heart } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function TakeQuizClient({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -25,6 +27,10 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  const [showMessageDialog, setShowMessageDialog] = useState(false);
+  const [message, setMessage] = useState("");
+  const [userPhone, setUserPhone] = useState("");
+  const [showPhoneInput, setShowPhoneInput] = useState(false);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -70,7 +76,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
     const currentQuestion = questions[currentQuestionIndex];
     if (!currentQuestion) return;
 
-    setTimeLeft(currentQuestion.timeLimit);
+    setTimeLeft(currentQuestion.time_limit ?? 0);
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -94,29 +100,77 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
       return;
     }
     setQuizStarted(true);
-    setTimeLeft(questions[0]?.timeLimit || 30);
+    setTimeLeft(questions[0]?.time_limit || 30);
   };
 
   const handleAnswer = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
-    if (answerIndex === questions[currentQuestionIndex].correctAnswer) {
+    const currentQuestion = questions[currentQuestionIndex];
+    if (answerIndex === currentQuestion.correct_answer) {
       setScore((prev) => prev + 1);
     }
   };
 
   const handleNextQuestion = async () => {
     if (currentQuestionIndex === questions.length - 1) {
+      const finalScore = score + (selectedAnswer === questions[currentQuestionIndex].correct_answer ? 1 : 0);
+      setScore(finalScore);
       setQuizCompleted(true);
+      
       // Save quiz attempt
       await supabase.from("quiz_attempts").insert({
         quiz_id: params.id,
         participant_name: participantName,
-        score: score,
+        score: finalScore,
       });
+      // Check if score is above 70%
+      const scorePercentage = (finalScore / questions.length) * 100;
+      if (scorePercentage >= 70) {
+        setShowMessageDialog(true);
+      }
       return;
     }
     setSelectedAnswer(null);
     setCurrentQuestionIndex((prev) => prev + 1);
+  };
+
+  const sendMessage = async () => {
+    if (!userPhone) {
+      setShowPhoneInput(true);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/send-message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: quiz.creator_phone,
+          from: userPhone,
+          message: `Message from ${participantName}: ${message}`,
+        }),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Your message has been sent!",
+          className: "heart-toast",
+        });
+        setShowMessageDialog(false);
+        setShowPhoneInput(false);
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   if (!quiz || !questions.length) {
@@ -248,6 +302,40 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
           )}
         </AnimatePresence>
       </div>
+
+      <Dialog open={showMessageDialog} onOpenChange={setShowMessageDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Send a Message to Your Valentine</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            {showPhoneInput ? (
+              <div className="space-y-4">
+                <Input
+                  type="tel"
+                  placeholder="Your phone number"
+                  value={userPhone}
+                  onChange={(e) => setUserPhone(e.target.value)}
+                  className="w-full"
+                />
+                <p className="text-sm text-gray-500">
+                  Enter your phone number to send the message. Format: +1234567890
+                </p>
+              </div>
+            ) : (
+              <Textarea
+                placeholder="Write your heartfelt message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="min-h-[100px]"
+              />
+            )}
+            <Button onClick={sendMessage} className="w-full bg-red-500 hover:bg-red-600">
+              {showPhoneInput ? "Confirm Phone Number" : "Send Message"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

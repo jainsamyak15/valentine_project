@@ -9,19 +9,31 @@ import { useToast } from "@/components/ui/use-toast";
 import RosePetals from "@/components/RosePetals";
 import BackgroundMusic from "@/components/BackgroundMusic";
 import { romanticShayaris } from "@/lib/constants";
+import Navbar from "@/components/Navbar";
 
 export default function Home() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Show initial shayari immediately
+    const randomShayari = romanticShayaris[Math.floor(Math.random() * romanticShayaris.length)];
+    toast({
+      title: "💝 Love Note",
+      description: randomShayari,
+      className: "heart-toast",
+      duration: 5000,
+    });
+
+    // Set up interval for subsequent shayaris
     const interval = setInterval(() => {
       const randomShayari = romanticShayaris[Math.floor(Math.random() * romanticShayaris.length)];
       toast({
         title: "💝 Love Note",
         description: randomShayari,
+        className: "heart-toast",
         duration: 5000,
       });
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [toast]);
@@ -30,6 +42,7 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 relative overflow-hidden">
       <RosePetals />
       <BackgroundMusic />
+      <Navbar />
       
       <div className="container mx-auto px-4 py-20 relative z-10">
         <motion.div

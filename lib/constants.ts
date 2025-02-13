@@ -17,6 +17,8 @@ export type Question = {
   options: string[];
   correctAnswer: number;
   timeLimit: number;
+  time_limit?: number;
+  correct_answer?: number;
 };
 
 export type Quiz = {

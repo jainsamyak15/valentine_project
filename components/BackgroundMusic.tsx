@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import useSound from 'use-sound';
 
 const BackgroundMusic = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Set initial state to true for auto play
   const [play, { stop }] = useSound('/Terre Pyaar Mein - Himesh Reshammiya 320 Kbps.mp3', { 
     volume: 0.5,
     loop: true 
