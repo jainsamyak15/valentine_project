@@ -7,7 +7,7 @@ import useSound from 'use-sound';
 
 const BackgroundMusic = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [play, { stop }] = useSound('/romantic-background.mp3', { 
+  const [play, { stop }] = useSound('/Terre Pyaar Mein - Himesh Reshammiya 320 Kbps.mp3', { 
     volume: 0.5,
     loop: true 
   });
