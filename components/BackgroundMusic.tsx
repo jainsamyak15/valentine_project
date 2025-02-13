@@ -24,13 +24,13 @@ const BackgroundMusic = () => {
     <Button
       variant="ghost"
       size="icon"
-      className="fixed bottom-4 right-4 z-50"
+      className="fixed top-4 right-4 z-50"
       onClick={() => setIsPlaying(!isPlaying)}
     >
       {isPlaying ? (
-        <Music className="h-6 w-6 text-red-500" />
+        <Music className="h-9 w-9 text-red-500" />
       ) : (
-        <Music2Off className="h-6 w-6 text-red-500" />
+        <Music2Off className="h-9 w-9 text-red-500" />
       )}
     </Button>
   );
