@@ -41,7 +41,7 @@ export default function TakeQuiz() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <Card className="p-8 bg-white/80 backdrop-blur-sm">
+          <Card className="p-8 bg-white/80 backdrop-blur-sm mt-20">
             <h1 className="text-3xl font-bold text-red-600 text-center mb-6">
               Take a Valentine Quiz
             </h1>

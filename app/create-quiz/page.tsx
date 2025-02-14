@@ -156,14 +156,15 @@ export default function CreateQuiz() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 py-12 px-4 relative">
+      <Navbar />
       <RosePetals />
       <BackgroundMusic />
-      <Navbar />
+      
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-3xl mx-auto space-y-8"
+        className="max-w-3xl mx-auto space-y-8 mt-20 "
       >
         <h1 className="text-4xl font-bold text-red-600 text-center mb-8">
           Create Your Valentine Quiz

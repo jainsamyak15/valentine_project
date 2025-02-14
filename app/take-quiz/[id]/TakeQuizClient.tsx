@@ -193,7 +193,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
       <BackgroundMusic />
       <Navbar />
 
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto mt-20">
         <AnimatePresence mode="wait">
           {!quizStarted ? (
             <motion.div
@@ -202,7 +202,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
             >
-              <Card className="p-8 bg-white/80 backdrop-blur-sm">
+              <Card className="p-8 bg-white/80 backdrop-blur-sm mt-20">
                 <h1 className="text-3xl font-bold text-red-600 text-center mb-6">
                   {quiz.creator_name}&apos;s Valentine Quiz
                 </h1>

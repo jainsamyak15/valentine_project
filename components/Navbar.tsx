@@ -9,9 +9,9 @@ export default function Navbar() {
         <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
-            className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50"
+            className="fixed top-1 left-1/2 transform -translate-x-1/2 z-50 mt-3"
         >
-            <nav className="bg-white/80 backdrop-blur-lg px-6 py-3 rounded-full shadow-lg border border-pink-100 left-1/2 transform -translate-x-1/2">
+            <nav className="bg-white/80 backdrop-blur-lg px-6 py-1 rounded-full shadow-lg border border-pink-100 left-1/2 transform -translate-x-1/2">
                 <ul className="flex items-center space-x-8">
                     <li>
                         <Link href="/" className="text-gray-600 hover:text-red-500 transition-colors">
