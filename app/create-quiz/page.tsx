@@ -13,6 +13,7 @@ import BackgroundMusic from "@/components/BackgroundMusic";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import Navbar from "@/components/Navbar";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,7 @@ export default function CreateQuiz() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState("");
+  const [valentineMessage, setValentineMessage] = useState("");
 
   const addQuestion = () => {
     if (!currentQuestion || options.some(opt => !opt)) {
@@ -89,6 +91,7 @@ export default function CreateQuiz() {
         .from("quizzes")
         .insert({
           creator_name: creatorName,
+          message: valentineMessage
         })
         .select()
         .single();
@@ -160,11 +163,10 @@ export default function CreateQuiz() {
       <RosePetals />
       <BackgroundMusic />
       
-      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-3xl mx-auto space-y-8 mt-20 "
+        className="max-w-3xl mx-auto space-y-8 mt-20"
       >
         <h1 className="text-4xl font-bold text-red-600 text-center mb-8">
           Create Your Valentine Quiz
@@ -177,6 +179,13 @@ export default function CreateQuiz() {
               value={creatorName}
               onChange={(e) => setCreatorName(e.target.value)}
               className="text-lg"
+            />
+
+            <Textarea
+              placeholder="Write a special message for your Valentine (they'll see it if they get all answers correct!)"
+              value={valentineMessage}
+              onChange={(e) => setValentineMessage(e.target.value)}
+              className="min-h-[100px]"
             />
 
             <div className="space-y-4">
