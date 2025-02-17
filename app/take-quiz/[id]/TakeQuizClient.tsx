@@ -28,6 +28,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
   const [quizStarted, setQuizStarted] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [showEnvelope, setShowEnvelope] = useState(false);
+  const [hasWrongAnswer, setHasWrongAnswer] = useState(false);
 
   useEffect(() => {
     const fetchQuiz = async () => {
@@ -104,6 +105,8 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
     setSelectedAnswer(answerIndex);
     if (answerIndex === questions[currentQuestionIndex].correct_answer) {
       setScore((prev) => prev + 1);
+    } else {
+      setHasWrongAnswer(true);
     }
   };
 
@@ -197,7 +200,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
                     transition={{ delay: 0.5, type: "spring" }}
                     className="flex justify-center relative"
                   >
-                    <div className="relative">
+                    <div className="relative mb-6">
                       {/* Envelope Animation */}
                       <div className="bg-gradient-to-br from-pink-400 via-red-500 to-pink-400 shadow-xl rounded-lg p-6 relative overflow-hidden max-w-lg mx-auto">
                         {/* Glowing hearts */}
@@ -249,8 +252,51 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
                   </motion.div>
                 )}
 
+                {hasWrongAnswer && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                    className="flex justify-center relative"
+                  >
+                    <div className="relative mb-6">
+                      {/* Envelope Animation */}
+                      <div className="bg-gradient-to-br from-pink-400 via-red-500 to-pink-400 shadow-xl rounded-lg p-6 relative overflow-hidden max-w-lg mx-auto mt-6">
+                        {/* Glowing hearts */}
+                        <div className="absolute top-0 left-0 w-full h-full">
+                          <div className="absolute inset-0 flex justify-center items-center">
+                            <motion.div
+                              className="rounded-full bg-red-300 opacity-60 blur-lg"
+                              animate={{
+                                scale: [1, 1.2, 1],
+                                opacity: [0.6, 0.8, 0.6],
+                              }}
+                              transition={{
+                                repeat: Infinity,
+                                duration: 3,
+                              }}
+                            ></motion.div>
+                          </div>
+                        </div>
+
+                        {/* Envelope Content */}
+                        <div className="relative">
+                          <div className="bg-white rounded-lg p-6 shadow-lg">
+                            <h2 className="text-center text-2xl font-bold text-red-600 mb-4">
+                              Better luck next time!
+                            </h2>
+                            <p className="text-gray-700 text-center italic text-lg">
+                              You are not eligible. Please try again!
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
                 <Button
-                  className="bg-red-500 hover:bg-red-600 mt-6"
+                  className="bg-red-500 hover:bg-red-600 mb-4"
                   onClick={() => router.push("/")}
                 >
                   Back to Home
