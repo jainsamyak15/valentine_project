@@ -10,7 +10,7 @@ const BackgroundMusic = ({ autoPlay = false }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const pathname = usePathname();
   
-  const [play, { stop }] = useSound('/Terre Pyaar Mein - Himesh Reshammiya 320 Kbps.mp3', { 
+  const [play, { stop }] = useSound('/taj.mp3', { 
     volume: 0.5,
     loop: true 
   });
