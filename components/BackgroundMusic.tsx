@@ -4,13 +4,30 @@ import { useState, useEffect } from 'react';
 import { Music, Music2 as Music2Off } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import useSound from 'use-sound';
+import { usePathname } from 'next/navigation';
 
-const BackgroundMusic = () => {
-  const [isPlaying, setIsPlaying] = useState(false); // Set initial state to true for auto play
+const BackgroundMusic = ({ autoPlay = false }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const pathname = usePathname();
+  
   const [play, { stop }] = useSound('/Terre Pyaar Mein - Himesh Reshammiya 320 Kbps.mp3', { 
     volume: 0.5,
     loop: true 
   });
+
+  useEffect(() => {
+    if (autoPlay) {
+      setIsPlaying(true);
+    }
+  }, [autoPlay]);
+
+  // Stop music on route change
+  useEffect(() => {
+    return () => {
+      stop();
+      setIsPlaying(false);
+    };
+  }, [pathname, stop]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -18,6 +35,11 @@ const BackgroundMusic = () => {
     } else {
       stop();
     }
+    
+    // Cleanup on component unmount
+    return () => {
+      stop();
+    };
   }, [isPlaying, play, stop]);
 
   return (

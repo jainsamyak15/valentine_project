@@ -148,7 +148,7 @@ export default function TakeQuizClient({ params }: { params: { id: string } }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-red-100 py-12 px-4 relative">
       <RosePetals />
-      <BackgroundMusic />
+      <BackgroundMusic autoPlay={quizCompleted} />
       <Navbar />
 
       <div className="max-w-3xl mx-auto mt-20">
